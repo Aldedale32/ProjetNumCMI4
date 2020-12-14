@@ -12,7 +12,7 @@ import pandas as pd
 
 # read data file
 # ------------------------------------------------------------------------------
-df = pd.read_csv("./donnees-synop-essentielles-omm.csv", index_col=0)
+df = pd.read_xlsx("./donnees-synop-essentielles-omm.xlsx", index_col=0)
 
 
 # Set up app
