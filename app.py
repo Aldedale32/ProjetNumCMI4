@@ -7,12 +7,13 @@ import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 import matplotlib as plt
+import plotly.express as px
 import pandas as pd
 import xlrd
 
 # read data file
 # ------------------------------------------------------------------------------
-df = pd.read_excel("donnees-synop-essentielles-omm.xlsx", index_col=0)
+df = pd.read_excel("./donnees-synop-essentielles-omm.xlsx", index_col=0)
 
 
 # Set up app
@@ -36,7 +37,7 @@ app.layout = html.Div(className="", children=[
         className="header",
         style={"backgroundColor": "#3c6382"},
         children=[html.H2(
-            "TITLE",
+            "Relevés météo 2019, station de Tarbes/Ossun",
             style={
                 "color": "white",
                 "padding": "30px 0 30px 0",
@@ -47,7 +48,7 @@ app.layout = html.Div(className="", children=[
     # ----- body
     html.Div(className="body", children=[
         # a sub title
-        html.H3("A plot"),
+        html.H3("Graphique : (indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité"),
         # first dropdown selector
         dcc.Dropdown(
             id="x-dropdown",  # identifiant
@@ -67,19 +68,6 @@ app.layout = html.Div(className="", children=[
         ),
         # a line
         html.Hr(),
-        # a sub title
-        html.H3("A table"),
-        # a new dropdown
-        dcc.Dropdown(
-            id="pivot-dropdown",
-            value="Temperature",
-            options=[{"label": name, "value": name} for name in df.columns],
-        ),
-        # a table for data
-        dash_table.DataTable(
-            id="pivot-table",
-        ),
-        html.Div(id="table")
     ]),
 
     # ----- footer
@@ -87,7 +75,7 @@ app.layout = html.Div(className="", children=[
         className="footer",
         style={"backgroundColor": "#3c6382"},
         children=[html.H2(
-            "FOOTER",
+            "Copyright Grp 1  M1 CMI",
             style={
                 "color": "white",
                 "padding": "30px 0 30px 0",
@@ -116,34 +104,13 @@ def display_graph(xvalue, yvalue):
     figure = px.scatter(
         df,
         x=xvalue, y=yvalue,
-        color='pos_simple',
-        category_orders=dict(pos_simple=['PG', 'SG', 'SF', 'PF', 'C']),
         marginal_x="histogram",
         marginal_y="histogram",
-        animation_group="Year",
+        animation_group="Heure",
         template="plotly_white",
     )
 
     return figure
-
-
-@app.callback(
-    [Output("pivot-table", "data"),
-     Output("pivot-table", "columns")],
-    [Input("pivot-dropdown", "value")]
-)
-def show_pivot_table(value):
-    """ This function return a pivot Table """
-
-    pivot_df = pd.pivot_table(
-        data=df, values=value, columns="pos_simple", index="ht_bins"
-    )
-    pivot_df = pivot_df.reset_index()
-    pivot_df = pivot_df.astype({"ht_bins": "str"})
-    cols = [{"name": col, "id": col} for col in pivot_df.columns]
-    data = pivot_df.to_dict("records")
-
-    return data, cols
 
 
 if __name__ == '__main__':
