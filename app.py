@@ -51,14 +51,14 @@ app.layout = html.Div(className="", children=[
         # first dropdown selector
         dcc.Dropdown(
             id="x-dropdown",  # identifiant
-            value="height",  # default value
+            value="Temperature",  # default value
             # all values in the menu
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         # second dropdown selector
         dcc.Dropdown(
             id="y-dropdown",
-            value="weight",
+            value="Point_de_rosee",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         # a place for the plot with an id
@@ -72,7 +72,7 @@ app.layout = html.Div(className="", children=[
         # a new dropdown
         dcc.Dropdown(
             id="pivot-dropdown",
-            value="height",
+            value="Temperature",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         # a table for data
