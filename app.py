@@ -48,7 +48,7 @@ app.layout = html.Div(className="", children=[
     html.Div(className="body", children=[
         # a sub title
         html.H3("Graphique : "),
-        html.P("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
+        html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
         # first dropdown selector
         dcc.Dropdown(
             id="x-dropdown",  # identifiant
