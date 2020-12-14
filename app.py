@@ -8,6 +8,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import matplotlib as plt
 import pandas as pd
+import xlrd
 
 # read data file
 # ------------------------------------------------------------------------------
