@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+#Importation des librairies requises
 import dash
 from dash.dependencies import Input, Output
 import dash_table
@@ -10,13 +11,10 @@ import matplotlib as plt
 import plotly.express as px
 import pandas as pd
 
-# read data file
-# ------------------------------------------------------------------------------
+#Création des données à partir du relevé météo
 df = pd.read_csv("./donnees-synop-essentielles-omm.csv", sep=';')
 
-
-# Set up app
-# ------------------------------------------------------------------------------
+#Création de l'application
 external_stylesheets = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css',
 ]
@@ -24,14 +22,9 @@ external_stylesheets = [
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
-# HTML page Layout
-# ------------------------------------------------------------------------------
-# Page is divided in three parts:
-#    * header: at the top, a title
-#    * body: the main containt
-#    * footer: at the bottom, contact, informations, credits
+#Visuel de l'application
 app.layout = html.Div(className="", children=[
-    # ------ header
+    # Entete
     html.Div(
         className="header",
         style={"backgroundColor": "#3c6382"},
@@ -44,62 +37,64 @@ app.layout = html.Div(className="", children=[
         )],
     ),
 
-    # ----- body
+    # Contenu
     html.Div(className="body", children=[
-        #First plot
-        html.H3("Graphiques : "),
+        html.H3("Quelques graphiques : "),
+        #Premier graphique
         html.Div("On regarde tout d'abord les corrélations entre les variables"), 
         html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
-        # first dropdown selector
+        # On veut une matrice de corrélation, on choisit d'y inclure 4 variables donc 4 dropdown
+        
         dcc.Dropdown(
-            id="x1-dropdown",  # identifiant
-            value="Temperature",  # default value
-            # all values in the menu
+            id="x1-dropdown",
+            value="Temperature",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         dcc.Dropdown(
-            id="x2-dropdown",  # identifiant
-            value="Pnt_rosee",  # default value
-            # all values in the menu
+            id="x2-dropdown",  
+            value="Pnt_rosee",  
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         dcc.Dropdown(
-            id="x3-dropdown",  # identifiant
-            value="Hteur_base_nuages",  # default value
-            # all values in the menu
+            id="x3-dropdown",  
+            value="Hteur_base_nuages", 
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         dcc.Dropdown(
-            id="x4-dropdown",  # identifiant
-            value="Humidite",  # default value
-            # all values in the menu
+            id="x4-dropdown",
+            value="Humidite",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
-        # a place for the plot with an id
+        #Emplacement du graphique
         html.Div(
             dcc.Graph(id='graph'),
         ),
-        # a line
+        
+        #On saute une ligne
         html.Hr(),
-        #Second plot
+        
+        #Deuxième graphique
         html.Div("Regardons de plus près le couple Temperature/Point de rosée: "),
-        # first dropdown selector
+        # Ici on veut un graphique simple à deux dimensions, donc deux dropdown
+        
         dcc.Dropdown(
-            id="x-dropdown",  # identifiant
-            value="Temperature",  # default value
-            # all values in the menu
+            id="x-dropdown",
+            value="Temperature",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
-        # second dropdown selector
+
         dcc.Dropdown(
             id="y-dropdown",
             value="Pnt_Rosee",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
-        # a place for the plot with an id
+        
+        # Emplacement du graphique
         html.Div(
             dcc.Graph(id='graph2'),
         ),
+        
+        #Quelques explications
         html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène :"),
         html.Hr(),
         html.Hr(),
@@ -111,7 +106,7 @@ app.layout = html.Div(className="", children=[
         
     ]),
 
-    # ----- footer
+    #Bas de page
     html.Div(
         className="footer",
         style={"backgroundColor": "#3c6382"},
@@ -125,42 +120,40 @@ app.layout = html.Div(className="", children=[
     ),
 ])
 
-# Callback functions => interactivity
-# Each element on the page is identified thanks to its `id`
-# ------------------------------------------------------------------------------
+#Fonctions d'affichage des graphiques
 
 @app.callback(
     Output('graph', 'figure'),
-    [Input("x1-dropdown", "value"), Input("x2-dropdown", "value"), Input("x3-dropdown", "value"), Input("x4-dropdown", "value")],
+    #On retrouve les 4 dropdown correspondat aux 4 vaiables à entrer dans la matrice
+    [Input("x1-dropdown", "value"), 
+     Input("x2-dropdown", "value"), 
+     Input("x3-dropdown", "value"), 
+     Input("x4-dropdown", "value")],
 )
 def display_graph(x1value, x2value, x3value, x4value):
+    #On crée la matrice de corrélation
     figure = pd.plotting.scatter_matrix(
                 datsrc[["Temperature","Point_de_rosee","Hauteur_de_la_base_des_nuages","Humidite"]],
                 diagonal="kde"
              )
-
+    #On retourne la matrice
     return figure
 
 
 @app.callback(
     Output('graph2', 'figure'),
+    #On retrouve les deux dropdown correspondant aux deux dimensions du graphique
     [Input("x-dropdown", "value"),
      Input("y-dropdown", "value")],
 )
 def display_graph2(xvalue, yvalue):
-    """ 
-    This function produce the plot.
-    The output is the "figure" of the graph
-    The inputs, are the values of the two dropdown menus
-    """
-
+    #On crée le graphique
     figure = px.scatter(
         df,
         x=xvalue, y=yvalue,
     )
-
+    #On retourne le graphique
     return figure
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)
