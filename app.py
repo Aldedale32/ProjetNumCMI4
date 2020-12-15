@@ -47,12 +47,12 @@ app.layout = html.Div(className="", children=[
         
         dcc.Dropdown(
             id="x1-dropdown",
-            value="Temperature",
+            value="Date",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         dcc.Dropdown(
             id="x2-dropdown",  
-            value="Humidite",  
+            value="Temperature",  
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         #Emplacement du graphique
