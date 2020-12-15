@@ -131,16 +131,7 @@ def display_graph(xvalue, yvalue):
     [Input("x2-dropdown", "value")],
 )
 def display_graph2(xvalue):
-    """ 
-    This function produce the plot.
-    The output is the "figure" of the graph
-    The inputs, are the values of the two dropdown menus
-    """
-
-    figure2 = px.scatter(
-        df,
-        x=xvalue, y="Date"
-    )
+    figure2 = df.plot.scatter(x=xvalue, y="Date")
 
     return figure2
 
