@@ -52,7 +52,7 @@ app.layout = html.Div(className="", children=[
         ),
         dcc.Dropdown(
             id="x2-dropdown",  
-            value="Pnt_rosee",  
+            value="Humidite",  
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         #Emplacement du graphique
@@ -115,7 +115,7 @@ def display_graph(x1value, x2value):
     #On crée le graphique
     figure = px.scatter(
         df,
-        x=xvalue, y=yvalue,
+        x=x1value, y=x2value,
     )
     #On retourne le graphique
     return figure
