@@ -85,7 +85,7 @@ app.layout = html.Div(className="", children=[
 
         dcc.Dropdown(
             id="y-dropdown",
-            value="Pnt_Rosee",
+            value="Pnt_rosee",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         
@@ -95,14 +95,10 @@ app.layout = html.Div(className="", children=[
         ),
         
         #Quelques explications
-        html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène :"),
-        html.Hr(),
-        html.Hr(),
-        html.Div("  -on obtient un graphe similaire aux approximations d'August-Roche-Magnus;"),
-        html.Hr(),
-        html.Div("  -le point de rosée correspond aussi à la température à laquelle la pression partielle de vapeur d'eau est égale à sa pression de vapeur saturante;"),
-        html.Hr(),
-        html.Div("  -On peut donc calculer l'humidité grâce au point de rosée.")
+        html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène :
+                     \-on obtient un graphe similaire aux approximations d\'August-Roche-Magnus;
+                     \-le point de rosée correspond aussi à la température à laquelle la pression partielle de vapeur d\'eau est égale à sa pression de vapeur saturante;
+                     \-On peut donc calculer l\'humidité grâce au point de rosée.")
         
     ]),
 
