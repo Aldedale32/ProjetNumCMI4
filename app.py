@@ -52,17 +52,36 @@ app.layout = html.Div(className="", children=[
         html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
         # first dropdown selector
         dcc.Dropdown(
-            id="x2-dropdown",  # identifiant
+            id="x1-dropdown",  # identifiant
             value="Temperature",  # default value
+            # all values in the menu
+            options=[{"label": name, "value": name} for name in df.columns],
+        ),
+        dcc.Dropdown(
+            id="x2-dropdown",  # identifiant
+            value="Pnt_rosee",  # default value
+            # all values in the menu
+            options=[{"label": name, "value": name} for name in df.columns],
+        ),
+        dcc.Dropdown(
+            id="x3-dropdown",  # identifiant
+            value="Hteur_base_nuages",  # default value
+            # all values in the menu
+            options=[{"label": name, "value": name} for name in df.columns],
+        ),
+        dcc.Dropdown(
+            id="x4-dropdown",  # identifiant
+            value="Humidite",  # default value
             # all values in the menu
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         # a place for the plot with an id
         html.Div(
-            dcc.Graph(id='graph2'),
+            dcc.Graph(id='graph'),
         ),
         # a line
         html.Hr(),
+        #Second plot
         html.Div("On peut aussi modéliser en fonction de la date et l'heure ou corréler seulement deux variables: "),
         # first dropdown selector
         dcc.Dropdown(
@@ -79,7 +98,7 @@ app.layout = html.Div(className="", children=[
         ),
         # a place for the plot with an id
         html.Div(
-            dcc.Graph(id='graph'),
+            dcc.Graph(id='graph2'),
         )
     ]),
 
@@ -101,13 +120,25 @@ app.layout = html.Div(className="", children=[
 # Each element on the page is identified thanks to its `id`
 # ------------------------------------------------------------------------------
 
-
 @app.callback(
     Output('graph', 'figure'),
+    [Input("x1-dropdown", "value"), Input("x2-dropdown", "value"), Input("x3-dropdown", "value"), Input("x4-dropdown", "value")],
+)
+def display_graph(x1value, x2value, x3value, x4value):
+    figure = pd.plotting.scatter_matrix(
+                datsrc[["Temperature","Point_de_rosee","Hauteur_de_la_base_des_nuages","Humidite"]],
+                diagonal="kde"
+             )
+
+    return figure
+
+
+@app.callback(
+    Output('graph2', 'figure'),
     [Input("x-dropdown", "value"),
      Input("y-dropdown", "value")],
 )
-def display_graph(xvalue, yvalue):
+def display_graph2(xvalue, yvalue):
     """ 
     This function produce the plot.
     The output is the "figure" of the graph
@@ -117,22 +148,9 @@ def display_graph(xvalue, yvalue):
     figure = px.scatter(
         df,
         x=xvalue, y=yvalue,
-        marginal_x="histogram",
-        marginal_y="histogram",
-        animation_group="Heure",
-        template="plotly_white",
     )
 
     return figure
-
-@app.callback(
-    Output('graph2', 'figure2'),
-    [Input("x2-dropdown", "value")],
-)
-def display_graph2(xvalue):
-    figure2 = df.plot.scatter(x=xvalue, y="Pnt_rosee")
-
-    return figure2
 
 
 if __name__ == '__main__':
