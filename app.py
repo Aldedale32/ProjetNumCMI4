@@ -48,7 +48,8 @@ app.layout = html.Div(className="", children=[
     html.Div(className="body", children=[
         #First plot
         html.H3("Graphiques : "),
-        html.Div("On peut aussi modéliser chaque variable en fonction du temps"), 
+        html.Div("On regarde tout d'abord les corrélations entre les variables"), 
+        html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
         # first dropdown selector
         dcc.Dropdown(
             id="x2-dropdown",  # identifiant
@@ -59,11 +60,10 @@ app.layout = html.Div(className="", children=[
         # a place for the plot with an id
         html.Div(
             dcc.Graph(id='graph2'),
-        )
+        ),
         # a line
         html.Hr(),
-        html.Div("On peut tout d'abord corréler les valeurs entre elles : "),
-        html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
+        html.Div("On peut aussi modéliser en fonction de la date et l'heure ou corréler seulement deux variables: "),
         # first dropdown selector
         dcc.Dropdown(
             id="x-dropdown",  # identifiant
@@ -74,13 +74,13 @@ app.layout = html.Div(className="", children=[
         # second dropdown selector
         dcc.Dropdown(
             id="y-dropdown",
-            value="Pnt_rosee",
+            value="Date",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         # a place for the plot with an id
         html.Div(
             dcc.Graph(id='graph'),
-        ),
+        )
     ]),
 
     # ----- footer
