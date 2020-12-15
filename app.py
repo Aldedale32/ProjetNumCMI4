@@ -48,28 +48,6 @@ app.layout = html.Div(className="", children=[
     html.Div(className="body", children=[
         #First plot
         html.H3("Graphiques : "),
-        html.Div("On peut tout d'abord corréler les valeurs entre elles : "),
-        html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
-        # first dropdown selector
-        dcc.Dropdown(
-            id="x-dropdown",  # identifiant
-            value="Temperature",  # default value
-            # all values in the menu
-            options=[{"label": name, "value": name} for name in df.columns],
-        ),
-        # second dropdown selector
-        dcc.Dropdown(
-            id="y-dropdown",
-            value="Point_de_rosee",
-            options=[{"label": name, "value": name} for name in df.columns],
-        ),
-        # a place for the plot with an id
-        html.Div(
-            dcc.Graph(id='graph'),
-        ),
-        # a line
-        html.Hr(),
-        #Second plot
         html.Div("On peut aussi modéliser chaque variable en fonction du temps"), 
         # first dropdown selector
         dcc.Dropdown(
@@ -82,6 +60,27 @@ app.layout = html.Div(className="", children=[
         html.Div(
             dcc.Graph(id='graph2'),
         )
+        # a line
+        html.Hr(),
+        html.Div("On peut tout d'abord corréler les valeurs entre elles : "),
+        html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
+        # first dropdown selector
+        dcc.Dropdown(
+            id="x-dropdown",  # identifiant
+            value="Temperature",  # default value
+            # all values in the menu
+            options=[{"label": name, "value": name} for name in df.columns],
+        ),
+        # second dropdown selector
+        dcc.Dropdown(
+            id="y-dropdown",
+            value="Pnt_rosee",
+            options=[{"label": name, "value": name} for name in df.columns],
+        ),
+        # a place for the plot with an id
+        html.Div(
+            dcc.Graph(id='graph'),
+        ),
     ]),
 
     # ----- footer
@@ -131,7 +130,7 @@ def display_graph(xvalue, yvalue):
     [Input("x2-dropdown", "value")],
 )
 def display_graph2(xvalue):
-    figure2 = df.plot.scatter(x=xvalue, y="Date")
+    figure2 = df.plot.scatter(x=xvalue, y="Pnt_rosee")
 
     return figure2
 
