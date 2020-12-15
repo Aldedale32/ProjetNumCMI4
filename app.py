@@ -82,7 +82,7 @@ app.layout = html.Div(className="", children=[
         # a line
         html.Hr(),
         #Second plot
-        html.Div("On peut aussi modéliser en fonction de la date et l'heure ou corréler seulement deux variables: "),
+        html.Div("Regardons de plus près le couple Temperature/Point de rosée: "),
         # first dropdown selector
         dcc.Dropdown(
             id="x-dropdown",  # identifiant
@@ -93,13 +93,22 @@ app.layout = html.Div(className="", children=[
         # second dropdown selector
         dcc.Dropdown(
             id="y-dropdown",
-            value="Date",
+            value="Pnt_Rosee",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         # a place for the plot with an id
         html.Div(
             dcc.Graph(id='graph2'),
-        )
+        ),
+        html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène :"),
+        html.Hr(),
+        html.Hr(),
+        html.Div("  -on obtient un graphe similaire aux approximations d'August-Roche-Magnus;"),
+        html.Hr(),
+        html.Div("  -le point de rosée correspond aussi à la température à laquelle la pression partielle de vapeur d'eau est égale à sa pression de vapeur saturante;"),
+        html.Hr(),
+        html.Div("  -On peut donc calculer l'humidité grâce au point de rosée.")
+        
     ]),
 
     # ----- footer
