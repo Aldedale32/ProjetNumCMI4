@@ -46,8 +46,9 @@ app.layout = html.Div(className="", children=[
 
     # ----- body
     html.Div(className="body", children=[
-        # a sub title
-        html.H3("Graphique : "),
+        #First plot
+        html.H3("Graphiques : "),
+        html.Div("On peut tout d'abord corréler les valeurs entre elles : "),
         html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
         # first dropdown selector
         dcc.Dropdown(
@@ -68,6 +69,19 @@ app.layout = html.Div(className="", children=[
         ),
         # a line
         html.Hr(),
+        #Second plot
+        html.Div("On peut aussi modéliser chaque variable en fonction du temps"), 
+        # first dropdown selector
+        dcc.Dropdown(
+            id="x2-dropdown",  # identifiant
+            value="Temperature",  # default value
+            # all values in the menu
+            options=[{"label": name, "value": name} for name in df.columns],
+        ),
+        # a place for the plot with an id
+        html.Div(
+            dcc.Graph(id='graph2'),
+        )
     ]),
 
     # ----- footer
@@ -111,6 +125,24 @@ def display_graph(xvalue, yvalue):
     )
 
     return figure
+
+@app.callback(
+    Output('graph2', 'figure2'),
+    [Input("x2-dropdown", "value")],
+)
+def display_graph2(xvalue):
+    """ 
+    This function produce the plot.
+    The output is the "figure" of the graph
+    The inputs, are the values of the two dropdown menus
+    """
+
+    figure2 = px.scatter(
+        df,
+        x=xvalue, y="Date"
+    )
+
+    return figure2
 
 
 if __name__ == '__main__':
