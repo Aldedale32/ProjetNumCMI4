@@ -43,7 +43,7 @@ app.layout = html.Div(className="", children=[
         #Premier graphique
         html.Div("On regarde tout d'abord les corrélations entre les variables"), 
         html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
-        # On veut une matrice de corrélation, on choisit d'y inclure 4 variables donc 4 dropdown
+        # On veut un graphique libre à deux dimensions, donc deux dropdown
         
         dcc.Dropdown(
             id="x1-dropdown",
@@ -53,16 +53,6 @@ app.layout = html.Div(className="", children=[
         dcc.Dropdown(
             id="x2-dropdown",  
             value="Pnt_rosee",  
-            options=[{"label": name, "value": name} for name in df.columns],
-        ),
-        dcc.Dropdown(
-            id="x3-dropdown",  
-            value="Hteur_base_nuages", 
-            options=[{"label": name, "value": name} for name in df.columns],
-        ),
-        dcc.Dropdown(
-            id="x4-dropdown",
-            value="Humidite",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         #Emplacement du graphique
@@ -120,19 +110,17 @@ app.layout = html.Div(className="", children=[
 
 @app.callback(
     Output('graph', 'figure'),
-    #On retrouve les 4 dropdown correspondat aux 4 vaiables à entrer dans la matrice
+    #On retrouve les 2 dropdown correspondat aux 2 variables à entrer dans le graphique
     [Input("x1-dropdown", "value"), 
-     Input("x2-dropdown", "value"), 
-     Input("x3-dropdown", "value"), 
-     Input("x4-dropdown", "value")],
+     Input("x2-dropdown", "value")],
 )
-def display_graph(x1value, x2value, x3value, x4value):
-    #On crée la matrice de corrélation
-    figure = pd.plotting.scatter_matrix(
-                datsrc[["Temperature","Point_de_rosee","Hauteur_de_la_base_des_nuages","Humidite"]],
-                diagonal="kde"
-             )
-    #On retourne la matrice
+def display_graph(x1value, x2value):
+    #On crée le graphique
+    figure = px.scatter(
+        df,
+        x=xvalue, y=yvalue,
+    )
+    #On retourne le graphique
     return figure
 
 
