@@ -99,7 +99,7 @@ app.layout = html.Div(className="", children=[
         ),
         
         #Quelques explications
-        html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène : <br/>      On obtient un graphe similaire aux approximations d'August-Roche-Magnus; <br/>         Le point de rosée correspond aussi à la température à laquelle la pression partielle de vapeur d'eau est égale à sa pression de vapeur saturante. <br/>     On peut donc calculer l'humidité grâce au point de rosée.")
+        html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène : "<br/>"      On obtient un graphe similaire aux approximations d'August-Roche-Magnus; "<br/>"         Le point de rosée correspond aussi à la température à laquelle la pression partielle de vapeur d'eau est égale à sa pression de vapeur saturante. "<br/>"     On peut donc calculer l'humidité grâce au point de rosée.")
         
     ]),
 
