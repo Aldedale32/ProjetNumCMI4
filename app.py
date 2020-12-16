@@ -51,6 +51,10 @@ app.layout = html.Div(className="", children=[
 
     # Contenu
     html.Div(className="body", children=[
+        # Présentation
+        html.Div("Nous avons extrait un relevé météo de la sation Tarbes-Ossun sur toute l'année 2020, on va l'analyser ensemble : "),
+        
+        #Analyse des données
         html.H3("Quelques graphiques : "),
         #Premier graphique
         html.Div("On regarde tout d'abord les corrélations entre les variables : "), 
@@ -95,10 +99,7 @@ app.layout = html.Div(className="", children=[
         ),
         
         #Quelques explications
-        html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène : 
-                           On obtient un graphe similaire aux approximations d'August-Roche-Magnus; 
-                           Le point de rosée correspond aussi à la température à laquelle la pression partielle de vapeur d'eau est égale à sa pression de vapeur saturante. 
-                           On peut donc calculer l'humidité grâce au point de rosée.")
+        html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène : <br/>      On obtient un graphe similaire aux approximations d'August-Roche-Magnus; <br/>         Le point de rosée correspond aussi à la température à laquelle la pression partielle de vapeur d'eau est égale à sa pression de vapeur saturante. <br/>     On peut donc calculer l'humidité grâce au point de rosée.")
         
     ]),
 
@@ -106,7 +107,7 @@ app.layout = html.Div(className="", children=[
     html.Div(
         className="footer",
         style={"backgroundColor": "#3c6382"},
-        children=[html.H2(
+        children=[html.H3(
             "Copyright Grp 1  M1 CMI",
             style={
                 "color": "white",
