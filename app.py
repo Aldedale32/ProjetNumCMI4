@@ -43,19 +43,29 @@ app.layout = html.Div(className="", children=[
         #Premier graphique
         html.Div("On regarde tout d'abord les corrélations entre les variables"), 
         html.Div("(Indice : Bonne corrélation Temperature/Point de Rosée et Temperature/Humidité)"), 
-        # On veut un graphique libre à deux dimensions, donc deux dropdown
+        # On veut une matrice de corrélation entre 4 variables, donc 4 menus déroulants
         
         dcc.Dropdown(
             id="x1-dropdown",
-            value="Date",
+            value="Temperature",
             options=[{"label": name, "value": name} for name in df.columns],
         ),
         dcc.Dropdown(
             id="x2-dropdown",  
-            value="Temperature",  
+            value="Pnt_rosee",  
             options=[{"label": name, "value": name} for name in df.columns],
         ),
-        #Emplacement du graphique
+        dcc.Dropdown(
+            id="x3-dropdown",
+            value="Humidite",
+            options=[{"label": name, "value": name} for name in df.columns],
+        ),
+        dcc.Dropdown(
+            id="x4-dropdown",  
+            value="Hteur_base_nuages",  
+            options=[{"label": name, "value": name} for name in df.columns],
+        ),
+        #Emplacement de la matrice
         html.Div(
             dcc.Graph(id='graph'),
         ),
@@ -65,7 +75,7 @@ app.layout = html.Div(className="", children=[
         
         #Deuxième graphique
         html.Div("Regardons de plus près le couple Temperature/Point de rosée: "),
-        # Ici on veut un graphique simple à deux dimensions, donc deux dropdown
+        # Ici on veut un graphique simple à deux dimensions, donc deux menus déroulants
         
         dcc.Dropdown(
             id="x-dropdown",
@@ -107,23 +117,26 @@ app.layout = html.Div(className="", children=[
 
 @app.callback(
     Output('graph', 'figure'),
-    #On retrouve les 2 dropdown correspondat aux 2 variables à entrer dans le graphique
+    #On retrouve les 4 valeurs des menus déroulants correspondant aux 4 variables à entrer dans la matrice
     [Input("x1-dropdown", "value"), 
-     Input("x2-dropdown", "value")],
+     Input("x2-dropdown", "value"),
+     Input("x3-dropdown", "value"),
+     Input("x4-dropdown", "value")],
 )
-def display_graph(x1value, x2value):
-    #On crée le graphique
-    figure = px.scatter(
-        df,
-        x=x1value, y=x2value,
-    )
-    #On retourne le graphique
+def display_graph(x1value, x2value, x3value, x4vaue):
+    #On crée la matrice
+   figure = px.scatter_matrix(df,
+                              dimensions=[x1value, x2value, x3value, x4value],
+                              title="Matrice de Corrélation : ",
+                              figure.update_traces(diagonal_visible=False)
+                              
+    #On retourne la matrice
     return figure
 
 
 @app.callback(
     Output('graph2', 'figure'),
-    #On retrouve les deux dropdown correspondant aux deux dimensions du graphique
+    #On retrouve les deux valeurs des menus déroulants correspondant aux deux dimensions du graphique
     [Input("x-dropdown", "value"),
      Input("y-dropdown", "value")],
 )
@@ -132,6 +145,7 @@ def display_graph2(xvalue, yvalue):
     figure = px.scatter(
         df,
         x=xvalue, y=yvalue,
+        title="Point de rosée en fonction de la température"
     )
     #On retourne le graphique
     return figure
