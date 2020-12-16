@@ -19,7 +19,6 @@ fig = px.scatter_matrix(df,
          dimensions=["Temperature", "Pnt_rosee", "Humidite", "Hteur_base_nuages"],
          title="Matrice de Corrélation : "
     )
-fig.update_traces(diagonal_visible=False)
 
 fig2 = px.scatter(
         df,
