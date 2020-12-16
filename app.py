@@ -125,10 +125,11 @@ app.layout = html.Div(className="", children=[
 )
 def display_graph(x1value, x2value, x3value, x4vaue):
     #On crée la matrice
-   figure = px.scatter_matrix(df,
-                              dimensions=[x1value, x2value, x3value, x4value],
-                              title="Matrice de Corrélation : ",
-                              figure.update_traces(diagonal_visible=False)
+    figure = px.scatter_matrix(df,
+         dimensions=[x1value, x2value, x3value, x4value],
+         title="Matrice de Corrélation : "
+    )
+    figure.update_traces(diagonal_visible=False)
                               
     #On retourne la matrice
     return figure
