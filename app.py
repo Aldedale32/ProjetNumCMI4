@@ -53,7 +53,7 @@ app.layout = html.Div(className="", children=[
     html.Div(className="body", children=[
         html.H3("Quelques graphiques : "),
         #Premier graphique
-        html.Div("On regarde tout d'abord les corrélations entre les variables"), 
+        html.Div("On regarde tout d'abord les corrélations entre les variables : "), 
         
         #Emplacement de la matrice
         html.Div(
