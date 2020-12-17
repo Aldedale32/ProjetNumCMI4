@@ -17,7 +17,8 @@ df = pd.read_csv("./donnees-synop-essentielles-omm.csv", sep=';')
 #Création de la matrice de corrélation
 fig = px.scatter_matrix(df,
          dimensions=["Temperature", "Pnt_rosee", "Humidite", "Hteur_base_nuages"],
-         title="Matrice de Corrélation : "
+         title="Matrice de Corrélation : ",
+         figsize=(12, 12)
     )
 
 fig2 = px.scatter(
