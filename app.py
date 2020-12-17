@@ -26,6 +26,12 @@ fig2 = px.scatter(
         title="Point de rosée en fonction de la température"
     )
 
+fig3 = px.scatter(
+        df,
+        x="Temperature", y="Humidite",
+        title="Humidite en fonction de la température"
+    )
+
 #Création de l'application
 external_stylesheets = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css',
@@ -99,8 +105,21 @@ app.layout = html.Div(className="", children=[
         ),
         
         #Quelques explications
-        html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène : On obtient un graphe similaire aux approximations d'August-Roche-Magnus; Le point de rosée correspond aussi à la température à laquelle la pression partielle de vapeur d'eau est égale à sa pression de vapeur saturante. On peut donc calculer l'humidité grâce au point de rosée.")
+        html.Div("Merveilleux, on voit que la température et la température sous laquelle la rosée se dépose naturellement sont corrélées, il va falloir expliquer le phénomène : On obtient un graphe similaire aux approximations d'August-Roche-Magnus; Le point de rosée correspond aussi à la température à laquelle la pression partielle de vapeur d'eau est égale à sa pression de vapeur saturante. On peut donc calculer l'humidité grâce au point de rosée."),
         
+        #On saute une ligne
+        html.Hr(),
+             
+        #Quatrième graphique
+        html.Div("Regardons de plus près le couple Temperature/Humidite: "),
+        
+        #Emplacement du graphique
+        html.Div(
+            dcc.Graph(figure=fig3),
+        ),
+             
+        #Quelques explications
+        html.Div("Nous remarquons qu'il y a une certaine corrélation entre la température et l'humidité, En effet, l'humidité augmente quand la température diminue.")
     ]),
 
     #Bas de page
