@@ -20,12 +20,14 @@ fig = px.scatter_matrix(df,
          title="Matrice de Corrélation : "
     )
 
+#Création du 2ème graphique
 fig2 = px.scatter(
         df,
         x="Temperature", y="Pnt_rosee",
         title="Point de rosée en fonction de la température"
     )
 
+#Création du 3ème graphique
 fig3 = px.scatter(
         df,
         x="Temperature", y="Humidite",
